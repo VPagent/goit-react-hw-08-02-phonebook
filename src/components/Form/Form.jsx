@@ -12,7 +12,7 @@ function Form() {
 
   useEffect(()=> {
     dispatch(getAllContacts())
-  }, [])
+  }, [dispatch])
 
   function handleSubmit(event) {
     event.preventDefault();
