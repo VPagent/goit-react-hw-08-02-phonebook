@@ -1,11 +1,14 @@
-import { createReducer } from "@reduxjs/toolkit"
-import { changeFilter } from "./operations"
+import { createReducer, createSlice } from "@reduxjs/toolkit"
+import { changeFilter, login, register } from "./operations"
 import { combineReducers } from "redux"
-import {addContact, getAllContacts, deleteContacts} from './operations'
-const initialState =  []
+import {addContact, getAllContacts, deleteContacts, currentUser, logOut } from './operations'
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'
+
+
 
 // Reducers
-export const itemsReducer = createReducer(initialState, {
+export const itemsReducer = createReducer([], {
     // [getAllContacts] : (state, _) => state,
     [getAllContacts.fulfilled] : (_, action) => action.payload,
     [addContact.fulfilled] : (state, action) => [...state, action.payload],
@@ -28,9 +31,58 @@ export const filterReducer = createReducer("", {
     [changeFilter] : (_, action) => action.payload
 })
 
+//USERS
+const initialState = {
+    user: {name: null, email:  null},
+    token: null,
+    isLoggedIn: false,
+    userLoading: false
+}
+export const userSlice = createSlice({
+    name: "user",
+    initialState: initialState,
+    extraReducers: {
+        [register.pending] : (state, _) => state.userLoading = true,
+        [register.fulfilled]: (state, {payload}) => {
+            state.user = payload.user;
+            state.token = payload.token;
+            state.isLoggedIn = true;
+            state.userLoading = false;
+        },
+        [login.fulfilled]: (state, {payload}) => {
+            // console.log(payload)
+            state.user = payload.user;
+            state.token = payload.token;
+            state.isLoggedIn = true;
+            state.userLoading = false;
+        },
+        [currentUser.fulfilled]: (state, {payload}) => {
+            state.user = payload;
+            state.isLoggedIn = true;
+        },
+        [logOut.fulfilled] : (state, action) => {
+            state.user = {name: null, email:  null};
+            state.token = null;
+            state.isLoggedIn = false;
+        }
+    }
+})
+
+
+
+const persistConfigUser = {
+  key: "userAuth",
+  storage,
+  whitelist: ["token"],
+}
+ const persistedUserReducer = persistReducer(persistConfigUser, userSlice.reducer)
+
 export const rootReducer = combineReducers({
+    auth: persistedUserReducer,
     items: itemsReducer,
     filter: filterReducer,
-    isLoading: isLoadingReducer
+    isLoading: isLoadingReducer,
+    
 })
+
 

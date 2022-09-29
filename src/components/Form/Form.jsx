@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import s from 'components/Form/Form.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import {addContact, getAllContacts} from '../redux/operations'
+import Button from 'react-bootstrap/Button';
+
+
 
 
 function Form() {
@@ -9,14 +12,18 @@ function Form() {
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(state => state.items)
-
+  const isLogged = useSelector(state => state.auth.isLoggedIn)
+  
   useEffect(()=> {
     dispatch(getAllContacts())
   }, [dispatch])
 
   function handleSubmit(event) {
     event.preventDefault();
-    const obj = { "name": name,  "phone": number };
+    if(!isLogged){
+      return alert("сначала зарегенься")
+    }
+    const obj = { "name": name,  "number": number };
     const inspect = contacts?.length > 0 && contacts.some(elem => elem.name === name);
     if (inspect) {
       return alert(`${name}is already in contacts`);
@@ -72,7 +79,8 @@ function Form() {
         />
       </label>
 
-      <button type="submit">Add contact</button>
+      {/* <button type="submit">Add contact</button> */}
+      <Button type="submit"variant="primary"> Add contact  </Button>
     </form>
   );
 }
