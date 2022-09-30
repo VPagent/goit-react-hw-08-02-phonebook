@@ -2,11 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./userInitialState";
 import { currentUser, login, logOut, register } from "./userOperations";
 
+
 export const userSlice = createSlice({
     name: "user",
     initialState: initialState,
     extraReducers: {
-        [register.pending] : (state, _) => state.userLoading = true,
+        [register.pending] : (state, _) => {state.userLoading = true},
         [register.fulfilled]: (state, {payload}) => {
             state.user = payload.user;
             state.token = payload.token;

@@ -10,6 +10,7 @@ import {ImPhone} from 'react-icons/im'
 import {FaUser} from 'react-icons/fa'
 import Button from 'react-bootstrap/Button';
 import { changeFilter, deleteContacts, getAllContacts } from 'components/redux/operations'
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 
 
@@ -48,13 +49,22 @@ function Contacts (){
             <input className={s.contactInput} type="text" name="filter" onChange={handleChangeFilter} />
         </label>
         {options.length > 0 && <ListGroup className={s.list} variant="flush">
+        <TransitionGroup className="todo-list">
             {options.map(({id, name, number}) => (
+                <CSSTransition
+                key={id}
+                // nodeRef={nodeRef}
+                timeout={300}
+                classNames={s.item}
+              >
                 <ListGroup.Item className={s.item} key={name}  >
                     <p  className={s.text}><FaUser /> <b>{name}</b></p>
                     <p className={s.text}><ImPhone /> <b>{number}</b></p>
                     <Button variant="primary" type="button"id={id} name={name} onClick={() => dispatch(deleteContacts(id))} ><MdDeleteForever size={20}/> DELETE</Button>
                 </ListGroup.Item>
+                </CSSTransition>
             ))}
+        </TransitionGroup>
         </ListGroup>}
         </>
     

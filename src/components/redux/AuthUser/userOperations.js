@@ -8,6 +8,7 @@ export const register = createAsyncThunk(
     async (credential) => {
         try{
             const response = await userRegistration(credential) 
+            console.log(response)
             tokenApi.set(response.token)
             return response
         } catch(error){console.log(error.message)}

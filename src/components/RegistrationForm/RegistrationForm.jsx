@@ -42,7 +42,7 @@ const RegistrationForm = () => {
       <section className={s.section}>
         <h2 className={s.registerTitle}>Enter your details to register</h2>
     <Form className={s.form} onSubmit={handleSabmit}>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label>Name</Form.Label>
         <Form.Control type="name" name="name" placeholder="Name" onChange={handleChange} />
       </Form.Group>
