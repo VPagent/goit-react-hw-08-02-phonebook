@@ -4,14 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { PrimaryButton } from 'components/Buttons/PrimaryButton';
-import { logOut } from 'components/redux/operations';
+import { logOut } from 'components/redux/AuthUser/userOperations';
 
-
-// const UserMenu = () => {
-//  return(
-//      <HiUserCircle size={60}/>
-//  )
-// }
 
 const UserMenu = () => {
   const [show, setShow] = useState(false);

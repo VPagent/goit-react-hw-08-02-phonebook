@@ -1,10 +1,7 @@
+import { currentUser } from "components/redux/AuthUser/userOperations";
 import Section from "components/Section";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { currentUser } from "../../components/redux/operations";
-
-
 
 
 const HomePage = () => {

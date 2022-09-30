@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import s from '../RegistrationForm/registrationForm.module.css'
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { register } from 'components/redux/operations';
-import { useNavigate } from 'react-router-dom';
+import { register } from 'components/redux/AuthUser/userOperations';
+
+
 
 
 
@@ -14,14 +15,12 @@ const RegistrationForm = () => {
   const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-  const navigate = useNavigate()
 
   const handleSabmit = async (event) => {
     event.preventDefault()
     const credentials = {name, email, password}
     try{
     await dispatch(register(credentials)).unwrap()
-    navigate("/", {replace: true})
     return
     } catch {console.log("error")}
   }

@@ -4,16 +4,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import s from '../LoginPage/loginPage.module.scss'
 import { useDispatch } from 'react-redux';
-import { login } from 'components/redux/operations';
-import { useNavigate } from 'react-router-dom';
-
+import { login } from 'components/redux/AuthUser/userOperations';
 
 
 const LoginPage = () => {
     const dispatch = useDispatch()
     const [password, setPassword] = useState()
     const [email, setEmail] = useState()
-    const navigate = useNavigate()
 
 
     const handleChange = (event) => {
@@ -35,8 +32,7 @@ const LoginPage = () => {
         console.log(credentials)
         try{
             await dispatch(login(credentials)).unwrap()
-            navigate("/", {replace: true})
-        
+    
         } catch{console.log("error")}
         
     }
